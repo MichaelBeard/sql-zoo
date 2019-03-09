@@ -1,0 +1,128 @@
+PROBLEM 1:
+Observe the result of running this SQL command to show the name, continent and population of all countries.
+
+CODE:
+SELECT name, continent, population FROM world -- Simply showing the name, continent, and population columns from the world table
+
+PROBLEM 2:
+Show the name for the countries that have a population of at least 200 million. 
+200 million is 200000000, there are eight zeros.
+
+CODE:
+SELECT name FROM world -- SELECT the name columns from the world table.
+WHERE population >= 200000000 - Only show me the names that have a population greater than or equal to 200 million.
+
+PROBLEM 3:
+Give the name and the per capita GDP for those countries with a population of at least 200 million.
+
+CODE:
+SELECT name, gdp/population - SELECT the name, and calculate the per capita GDP from the world table
+FROM world
+WHERE population >= 200000000 - Show only the names with population greater than or equal to 200 million
+
+PROBLEM 4:
+Show the name and population in millions for the countries of the continent 'South America'. 
+Divide the population by 1000000 to get population in millions.
+
+CODE:
+SELECT name, population/1000000 -- SELECT name, and population in millions
+FROM world
+WHERE continent = 'South America' -- Only where the continent is South America
+
+PROBLEM 5:
+Show the name and population for France, Germany, Italy
+
+CODE:
+SELECT name, population -- SELECT name and population
+FROM world
+WHERE name IN('France','Germany','Italy') - Only for France, Germany, and Italy
+
+PROBLEM 6:
+Show the countries which have a name that includes the word 'United'
+
+CODE:
+SELECT name -- SELECT name
+FROM world
+WHERE name LIKE 'United%' -- Only show countries with a name that begins with 'United' such as United Kingdom
+
+PROBLEM 7:
+Two ways to be big: 
+A country is big if it has an area of more than 3 million sq km or it has a population of more than 250 million.
+Show the countries that are big by area or big by population. Show name, population and area.
+
+CODE:
+SELECT name, population, area -- SELECT name, population, and area
+FROM world
+WHERE population >= 250000000 OR area >= 3000000 -- Only show the aforementioned criteria for countries with a population greater than (or equal to) 250 million 
+-- or an area greater than (or equal to) 3 million sq km
+
+PROBLEM 8:
+Exclusive OR (XOR). Show the countries that are big by area or big by population but not both. Show name, population and area.
+
+Australia has a big area but a small population, it should be included.
+Indonesia has a big population but a small area, it should be included.
+China has a big population and big area, it should be excluded.
+United Kingdom has a small population and a small area, it should be excluded.
+
+CODE:
+SELECT name, population, area --SELECT name, population, and area
+FROM world
+WHERE population >= 250000000 XOR area >= 3000000 -- Like the previous problem except now we need countries who fit one of these criteria NOT BOTH.
+
+PROBLEM 9:
+Show the name and population in millions and the GDP in billions for the countries of the continent 'South America'. 
+Use the ROUND function to show the values to two decimal places.
+For South America show population in millions and GDP in billions both to 2 decimal places.
+
+CODE:
+SELECT name, ROUND(population/1000000,2), ROUND(gdp/1000000000,2) -- SELECT name, show the population in millions and ROUND it to two decimal places, show the gpd in billions and ROUND it to two decimal places. 
+FROM world
+WHERE continent = 'South America' -- Show the above criteria only for countries in South America.
+
+PROBLEM 10:
+Show the name and per-capita GDP for those countries with a GDP of at least one trillion (1000000000000; that is 12 zeros). 
+Round this value to the nearest 1000.
+
+CODE:
+SELECT name, ROUND(gdp/population,-3) -- SELECT name, and ROUND the per capita GDP to the nearest 1000
+FROM world
+WHERE gdp >= 1000000000000 -- Show the above criteria only for countries with a gdp greater than or equal to one trillion.
+
+PROBLEM 11:
+Greece has capital Athens.
+Each of the strings 'Greece', and 'Athens' has 6 characters.
+Show the name and capital where the name and the capital have the same number of characters.
+
+CODE:
+SELECT name, capital -- SELECT name, capital from world table
+FROM world
+WHERE LENGTH(name) = LENGTH(capital) -- Only show the above criteria if the length of the country's name matches the same length as their respective capital's name.
+
+PROBLEM 12:
+The capital of Sweden is Stockholm. Both words start with the letter 'S'.
+
+Show the name and the capital where the first letters of each match. Don't include countries where the name and the capital are the same word.
+You can use the function LEFT to isolate the first character.
+You can use <> as the NOT EQUALS operator.
+
+CODE:
+SELECT name, capital -- RETURN the name and capital
+FROM world
+WHERE LEFT(name, 1) = LEFT(capital,1) AND name <> capital -- Only return the name and capital if the first letter of their names match AND if they aren't the same word.
+
+PROBLEM 13:
+Equatorial Guinea and Dominican Republic have all of the vowels (a e i o u) in the name. 
+They don't count because they have more than one word in the name.
+Find the country that has all the vowels and no spaces in its name.
+You can use the phrase name NOT LIKE '%a%' to exclude characters from your results.
+The query shown misses countries like Bahamas and Belarus because they contain at least one 'a'
+
+CODE:
+SELECT name -- Return country
+   FROM world
+WHERE name LIKE '%a%' -- Name must contain the following vowels and no spaces.
+AND name LIKE '%e%'
+AND name LIKE '%i%'
+AND name LIKE '%o%'
+AND name LIKE '%u%'
+  AND name NOT LIKE '% %'
